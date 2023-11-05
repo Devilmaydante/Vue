@@ -54,7 +54,7 @@ const actions = (app) => {
           pages.data.data.map((item) => {
             const firstLine = item.markdown.split('\n')[0];
             return {
-              title: null,
+              title: item.title || null,
               banner: firstLine[0] === '!' ? /\(([^)]+)\)/.exec(firstLine)[1] : null,
               markdown: firstLine[0] === '!' ? item.markdown.substring(firstLine.length + 2) : item.markdown,
               style: 'classic',
@@ -70,11 +70,12 @@ const actions = (app) => {
         const ghost = new GhostContentAPI({
           url: config.home.blog.url,
           key: config.home.blog.key,
-          version: 'v3',
+          version: 'v3.0',
         });
-        const res = await ghost.posts.browse({ limit: 3, filter: 'tag:article' });
+        const res = await ghost.posts.browse({ limit: 6, filter: 'tag:article' });
         commit('news_set', res);
       } catch (err) {
+        console.log(err);
         commit('error', err);
       }
     },
@@ -147,7 +148,7 @@ const state = (app) => {
     contents: [],
     news: [],
     contact: {},
-    statistics: app.config.globalProperties.config.home.stats.data,
+    statistics: app.config.globalProperties.config.home.stats ? app.config.globalProperties.config.home.stats.content : null,
   };
 };
 

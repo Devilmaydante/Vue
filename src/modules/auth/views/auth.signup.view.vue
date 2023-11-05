@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid>
+  <v-container :style="`max-width: ${config.vuetify.theme.maxWidth}`">
     <v-row align="start" justify="center">
       <v-card
-        class="ma-6 pa-6"
+        class="mt-8 pa-8"
         width="100%"
         :style="{ background: config.vuetify.theme.themes[theme].colors.surface }"
         :flat="config.vuetify.theme.flat"
@@ -94,7 +94,7 @@ export default {
   },
   watch: {
     auth(auth) {
-      if (auth.email) this.$router.push(this.config.sign.route);
+      if (auth) this.$router.push(this.config.sign.route);
     },
   },
   methods: {

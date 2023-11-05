@@ -1,32 +1,12 @@
-<!--
-  - Call example
-    <homeContactComponent></homeContactComponent>
--->
 <template>
-  <section id="contact" class="py-12">
-    <v-container>
-      <h2
-        class="font-weight-bold mb-3 pb-8 text-h4 text-center"
-        style="text-transform: uppercase !important"
-        v-if="config.home.contact.title"
-        v-text="config.home.contact.title"
-      ></h2>
-      <v-form ref="form">
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              class="customTextField"
-              v-model="subject"
-              :flat="config.vuetify.theme.flat"
-              name="subject"
-              label="Subject*"
-              variant="contained"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-textarea class="customTextField" v-model="body" :flat="config.vuetify.theme.flat" label="Message*" variant="contained"></v-textarea>
-          </v-col>
-          <v-col class="mx-auto" cols="auto">
+  <section id="contact" :style="style('section', config.home.contact)">
+    <v-container :style="`max-width: ${config.vuetify.theme.maxWidth}`">
+      <v-row align="center" justify="center" class="px-0 py-8">
+        <homeTitleComponent v-bind:setup="config.home.contact"></homeTitleComponent>
+        <v-col>
+          <v-form ref="form">
+            <v-text-field v-model="subject" :flat="config.vuetify.theme.flat" name="subject" label="Subject*"></v-text-field>
+            <v-textarea v-model="body" :flat="config.vuetify.theme.flat" label="Message*"></v-textarea>
             <v-btn
               @click="sendMail()"
               :color="config.vuetify.theme.themes[theme].colors.secondary"
@@ -37,9 +17,9 @@
               x-large
               >Send</v-btn
             >
-          </v-col>
-        </v-row>
-      </v-form>
+          </v-form>
+        </v-col>
+      </v-row>
     </v-container>
   </section>
 </template>
@@ -49,11 +29,17 @@
  * Module dependencies.
  */
 import { mapGetters } from 'vuex';
+import { style } from '../../../lib/helpers/theme';
+import homeTitleComponent from './utils/home.title.component.vue';
+
 /**
  * Export default
  */
 export default {
   name: 'homeContactComponent',
+  components: {
+    homeTitleComponent,
+  },
   computed: {
     ...mapGetters(['theme', 'contact']),
     subject: {
@@ -76,6 +62,7 @@ export default {
     },
   },
   methods: {
+    style,
     sendMail() {
       window.location.href = `${this.config.home.contact.mail}?subject=${this.contact.subject}&body=${this.contact.body.replace(/\n/g, '%0D%0A')}`;
       this.$refs.form.reset();

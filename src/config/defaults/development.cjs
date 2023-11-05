@@ -2,12 +2,11 @@
 module.exports = {
   app: {
     title: 'WAOS',
-    status: 'Dev',
-    logo: 'logo.png', // null to use title by default
     subtitle: 'welcome to demo.',
     description: 'Vue - Boilerplate Front : Vuetify, Axios, Jest, Cypress (Alpha) ',
     keywords: 'vue, vuetify, axios, jest, cypress',
     author: 'pierre@weareopensource.me',
+    icon: 'fa-solid fa-earth-americas',
   },
   port: 8080, // only available for dev env
   api: {
@@ -40,29 +39,17 @@ module.exports = {
     },
   },
   analytics: {
-    matomo: {
-      // host: 'https://mtm.weareopensource.me',
-      // siteId: 2,
-      // router: this.$router, // Enables automatically registering pageviews on the router
-      // trackerFileName: 'matomo', // Changes the default .js and .php endpoint's filename
-      // enableLinkTracking: true, // Enables link tracking on regular links. Note that
-      // this won't work for routing links (ie. internal Vue router links)
-      // requireConsent: false, // Require consent before sending tracking information to matomo
-      // trackInitialView: true, // Whether to track the initial page view
-      // disableCookies: false, // Run Matomo without cookies
-      // enableHeartBeatTimer: false, // Enable the heartbeat timer
-      // heartBeatTimerInterval: 15, // Set the heartbeat timer interval
-      // debug: false, // Whether or not to log debug information
-      // userId: undefined, // UserID passed to Matom
-      // cookieDomain: undefined, // Share the tracking cookie across subdomains
-      // domains: undefined, // Tell Matomo the website domain so that clicks on these domains are not tracked as 'Outlinks'
-      // preInitActions: [],
+    posthog: {
+      // host: 'ph_instance_address',
+      // key: 'ph_project_api_key',
     },
   },
   vuetify: {
     theme: {
       dark: 'auto', // dark theme true / false / auto (based on prefers-color-scheme)
       flat: true, // flat by default
+      rounded: 'rounded-lg',
+      maxWidth: '1400px',
       snackbar: {
         // kind of notifications on requests
         status: true, // activate for error
@@ -70,20 +57,25 @@ module.exports = {
         sucessColor: 'success',
         errorColor: 'error',
       },
+      appbar: {
+        background: '#2c3e50',
+        color: '#FFFFFF',
+        opacity: 99,
+        scrollBehavior: 'hide',
+      },
       navigation: {
-        ifLogged: false, // show nav only if user is logged (easy for one page site)
-        selectBorder: 'secondary', // color / undefined
+        background: '#2c3e50',
+        color: '#FFFFFF',
         drawer: {
-          model: false,
           floating: true,
-          expand: true, // Collapses the drawer to a mini-variant until hovering with the mouse
-          rail: true, // Small navigation, icon only
+          expand: true,
+          rail: true,
         },
       },
       themes: {
         light: {
           colors: {
-            primary: '#34495e',
+            primary: '#1abc9c',
             secondary: '#EE5A24',
             background: '#f3f3f6',
             surface: '#ffffff',
@@ -99,7 +91,7 @@ module.exports = {
         },
         dark: {
           colors: {
-            primary: '#34495e',
+            primary: '#1abc9c',
             secondary: '#e67e22',
             background: '#1F1F1F',
             surface: '#282A2E',
@@ -123,87 +115,312 @@ module.exports = {
     },
   },
   header: {
+    logo: {
+      file: '/images/logo.webp', // null to hide
+      width: '120px',
+    },
+    title: false, // display title or not
     links: [
       // top left
       {
-        label: 'Blog',
+        title: 'Product',
+        sublinks: [
+          {
+            icon: 'fa-regular fa-star',
+            color: 'secondary',
+            title: 'For startuper',
+            subtitle: 'Create faster, Resilient, Easily',
+            url: 'https://github.com/weareopensource/',
+          },
+          {
+            icon: 'fa-solid fa-code',
+            color: 'secondary',
+            title: 'For developer',
+            subtitle: 'Learn, develop, fork',
+            url: 'https://github.com/weareopensource/',
+          },
+        ],
+      },
+      {
+        title: 'Ressources',
+        sublinks: [
+          {
+            icon: 'fa-regular fa-newspaper',
+            color: 'secondary',
+            title: 'Blog',
+            subtitle: 'Follow our updates and activities',
+            url: 'https://blog.weareopensource.me',
+          },
+        ],
+      },
+      {
+        title: 'Pricing',
         url: 'https://blog.weareopensource.me',
       },
     ],
-    socials: [
-      // top right icons
+    shortcuts: [
       {
-        icon: 'fa-brands fa-github',
-        label: 'Github',
-        url: 'https://github.com/weareopensource/',
+        title: 'Get Started - free',
+        url: 'https://blog.weareopensource.me',
+        variant: 'flat',
       },
     ],
   },
   home: {
-    temporalBackground: 'https://blog.weareopensource.me/content/images/size/w1600/2020/11',
-    // one by hour 00.jpg, 01.jpg; 02.jpg ... set to null default background would be in @/assets/images/background.jpg
-    abouts: [
-      {
-        title: 'About Us',
-        text: '[WAOS](https://blog.weareopensource.me/us/)"s goal is to simplify the **start** of new **tech projects** / **startups**. \
-          As we know It"s must be **fast**, **efficient** while **avoiding the refactor** afterward. \
-          So whether through the creation of [Open-Source](https://github.com/weareopensource) **stacks** / **tools** or **articles**, \
-          we **share our knowledge** around this subject.',
-        image: 'https://avatars3.githubusercontent.com/u/8588816?s=200&v=4',
-        button: 'Github',
+    lightBackground: '/images/light.webp',
+    darkBackground: '/images/dark.webp',
+    banner: {
+      title: 'Turn your ideas <br /> <b><span style="color:#55efc4">into a reality.</span></b>',
+      button: {
+        title: 'Just launched: 2.0 →',
+        color: '#55efc4',
         link: 'https://github.com/weareopensource',
       },
-    ],
-    features: {
-      title: 'Vuetify features',
-      data: [
-        {
-          icon: 'fa-solid fa-users',
-          title: 'Vibrant Community',
-          text: '**Lorem** ipsum dolor sit amet consectetur adipisicing elit. \
-            Iusto cupiditate sint possimus quidem atque harum excepturi nemo velit tempora! \
-            Enim inventore fuga, qui ipsum eveniet facilis obcaecati corrupti asperiores nam',
-          // color: 'red' background color option
+    },
+    video: {
+      file: '/videos/highlight.mp4',
+      poster: '/videos/highlight-poster.webp',
+      style: {
+        section: {
+          background: 'surface',
         },
-        {
-          icon: 'fa-solid fa-cloud-arrow-up',
-          title: 'Frequent Updates',
-          text: '**Sed** ut elementum justo. Suspendisse non justo enim. Vestibulum cursus mauris dui, a luctus ex blandit. \
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. qui ipsum eveniet facilis obcaecati corrupti consectetur adipisicing elit.',
+        video: {
+          background: '#101115',
         },
+      },
+    },
+    punchline: {
+      style: {
+        section: {
+          background: 'background',
+        },
+      },
+      content: [
         {
-          icon: 'fa-solid fa-headset',
-          title: 'Long-term Support',
-          text: '**Lorem** ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate sint possimus quidem atque \
-            harum excepturi nemo velit tempora! Enim inventore fuga, qui ipsum eveniet facilis obcaecati corrupti asperiores nam',
+          subtitle: 'We Are Open Source',
+          quote: true,
+          text: 'Is an all-in-one platform tailored for **developers**, **startups**, and **incubators**, streamlining the process of launching digital projects. With our intuitive stack combining **NodeJS**, **VueJS**, and **Swift**, users can swiftly set up **authentication**, showcase **products**, implement **pricing models**, and handle **subscriptions**. Dive into the new era of rapid development and bring your innovative ideas to life with ease.',
+          button: {
+            title: 'Follow Us on Github',
+            link: 'https://github.com/weareopensource',
+          },
         },
       ],
     },
-    slideshow: {
-      title: 'Demos',
-      data: [
+    features: {
+      style: {
+        section: {
+          background: 'surface',
+        },
+        video: {
+          background: '#101115',
+        },
+      },
+      title: 'Showcase Site !',
+      content: [
         {
-          img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-          icon: 'fa-solid fa-users',
-          title: 'Vibrant Community',
-          text: '**Lorem** ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate sint ...',
-          // color: 'red'
-          // position: 'end', start / center / end text position for full slideshow only
-          // dark: true, start / center / end text position for full slideshow only dark / light option for image => 01-dark.jpg 01-light.jpg
+          text: 'Specifically crafted for startups & developers, our template, integrating **NodeJS**, **VueJS**, & **Swift**, offers a unique opportunity for users. Not only does it guarantee a standout product showcase without the usual design hiccups, but it also empowers users with a tool that marries both aesthetic appeal and functional prowess. Dive in and experience a transformative platform where elegance meets performance.',
+          reversed: true,
+          fullWidth: true,
+          video: {
+            file: '/videos/highlight.mp4',
+            poster: '/videos/highlight-poster.webp',
+          },
         },
         {
-          img: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-          icon: 'fa-solid fa-cloud-arrow-up',
-          title: 'Frequent Updates',
-          // color: 'red'
-          // text: '**Sed** ut elementum justo. Suspendisse non justo enim. Vestibulum cursus mauris dui,
+          subtitle: 'Authentication Feature',
+          img: '/images/content01.webp',
+          text: 'Leveraging **Apple Connect**, **Google Connect**, and **JWT**, our authentication system emphasizes security and ease. Fueled by **NodeJS**, **VueJS**, & **Swift**, it promises a unified sign-in process  and ensuring user comfort.',
+        },
+        {
+          subtitle: 'CRUD Model',
+          img: '/images/content02.webp',
+          text: 'Our **CRUD** model, built on **NodeJS**, **VueJS**, & **Swift**, exemplifies rapid feature development. It offers a clear path to master CRUD operations, eliminating guesswork. Elevate your development with our insightful guide.',
         },
       ],
+    },
+    repos: {
+      style: {
+        section: {
+          background: 'background',
+        },
+      },
+      slide: {
+        interval: 15000,
+        text: 'Browse stacks...',
+      },
+      content: [
+        {
+          subtitle: 'Node',
+          img: '/images/card01.webp',
+          text: 'Discover our Node stack. Runs standalone or with Vue or Swift. Uses Node, Express, MongoDB, and Jest. Features user auth, tasks, uploads, and Docker setup.',
+          button: {
+            title: 'Just launched: 1.2.1 →',
+            color: '#EA3F7D',
+            link: 'https://github.com/weareopensource/Node',
+          },
+          style: {
+            card: {
+              background: '#FFD0E4',
+              color: '#000000',
+            },
+          },
+        },
+        {
+          subtitle: 'Vue',
+          img: '/images/card02.webp',
+          reversed: true,
+          text: 'Explore our Vue 3 stack with JWT auth. Modular, pairs with our Node. Layered architecture, Docker, ESLint, and Github Action included. Design based on Vuetify.',
+          button: {
+            title: 'Just launched: 1.2.0 →',
+            color: '#DAFE56',
+            link: 'https://github.com/weareopensource/Vue',
+          },
+          style: {
+            card: {
+              background: '#010101',
+              color: '#FFFFFF',
+            },
+          },
+        },
+        {
+          subtitle: 'Swift',
+          img: '/images/card03.webp',
+          text: 'Our Swift stack in Beta offers frontend solutions. Features layered architecture, RxSwift, and tools for development. Supports user auth, tasks, and notifications.',
+          button: {
+            title: 'Just launched: 1.3.0 →',
+            color: '#f1c40f',
+            link: 'https://github.com/weareopensource/Swift',
+          },
+          style: {
+            card: {
+              background: '#2c3e50',
+              color: '#FFFFFF',
+            },
+          },
+        },
+        {
+          subtitle: 'Conventional Changelog',
+          img: '/images/card04.webp',
+          reversed: true,
+          text: 'Conventional Changelog respects CZ standards. Enhanced with ES6 and Emoji. Integrated with commitizen and open for contributions. A lighter way to respect conventions',
+          button: {
+            title: 'Just launched: 1.7.0 →',
+            color: '#365571',
+            link: 'https://github.com/weareopensource/conventional-changelog',
+          },
+          style: {
+            card: {
+              background: '#16a085',
+              color: '#FFFFFF',
+            },
+          },
+        },
+      ],
+    },
+    ressources: {
+      title: 'Some ressources to start',
+      style: {
+        section: {
+          background: 'surface',
+        },
+        card: {
+          background: 'background',
+        },
+      },
+      content: [
+        {
+          icon: 'fa-solid fa-book',
+          color: '#16a085',
+          subtitle: 'History',
+          text: 'This work was initially based on [MEAN.js](http://meanjs.org/), a fork [Riess.js](https://github.com/lirantal/Riess.js). Its creators stopped working on it, we wished to take the project over. We want to create stacks with this mindset.',
+        },
+        {
+          icon: 'fa-solid fa-file-lines',
+          color: '#2980b9',
+          subtitle: 'Ressources',
+          text: '[Start a project and keep it updated ?](https://blog.weareopensource.me/start-a-project-and-maintain-updates/)<br /><br /> - Deployment: [Rancher](https://blog.weareopensource.me/tag/rancher-2/) - [CapRover](https://blog.weareopensource.me/node/) <br /> - Code: [JS](https://blog.weareopensource.me/js-knwoledges/) - [Swift](https://blog.weareopensource.me/js-knwoledges-2/)  <br /> - Other: [Commits](https://github.com/weareopensource/conventional-changelog) - [Server](https://blog.weareopensource.me/setup-debian-server/) - [Tools](https://blog.weareopensource.me/us/) <br />',
+        },
+        {
+          icon: 'fa-solid fa-binoculars',
+          color: '#f39c12',
+          subtitle: 'Vision',
+          text: 'We dream of creating stacks in multiple languages, [Vue](https://github.com/weareopensource/Vue), [Node](https://github.com/weareopensource/Node), [Swift](https://github.com/weareopensource/Swift) ..., aligned on features & architecture. We want to allow anyone to create a full-stack on-demand and keep it updated easily.',
+        },
+      ],
+    },
+    designs: {
+      style: {
+        section: {
+          background: 'background',
+        },
+      },
+      slide: {
+        height: '600px',
+        interval: 6000,
+        text: 'Discover designs...',
+      },
+      content: [
+        {
+          img: '/images/slide01.webp',
+          text: null,
+          color: null,
+        },
+        {
+          img: '/images/slide02.webp',
+          text: null,
+          color: null,
+        },
+      ],
+    },
+    partners: {
+      style: {
+        section: {
+          background: 'surface',
+        },
+        card: {
+          background: 'surface',
+        },
+        size: '125px',
+      },
+      title: 'Our incredible partners',
+      content: [
+        {
+          img: 'https://logodownload.org/wp-content/uploads/2013/12/apple-logo-16.png',
+          link: 'https://apple.com',
+          subtitle: 'CRUD Model',
+          text: 'Our **CRUD** model, built on **NodeJS**, **VueJS**, & **Swift**, exemplifies rapid feature development. It offers a clear path to master CRUD operations, eliminating guesswork. Elevate your development with our insightful guide.',
+        },
+        {
+          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png',
+          link: 'https://google.com',
+          subtitle: 'CRUD Model',
+          text: 'Our **CRUD** model, built on **NodeJS**, **VueJS**, & **Swift**, exemplifies rapid feature development. It offers a clear path to master CRUD operations, eliminating guesswork. Elevate your development with our insightful guide.',
+        },
+        {
+          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Tesla_T_symbol.svg/800px-Tesla_T_symbol.svg.png',
+          link: 'https://tesla.com',
+          subtitle: 'CRUD Model',
+          text: 'Our **CRUD** model, built on **NodeJS**, **VueJS**, & **Swift**, exemplifies rapid feature development. It offers a clear path to master CRUD operations, eliminating guesswork. Elevate your development with our insightful guide.',
+        },
+      ],
+    },
+    blog: {
+      style: {
+        section: {
+          background: 'background',
+        },
+      },
+      slide: {
+        interval: 15000,
+        text: 'Read more...',
+      },
+      title: 'Some contents to read',
+      url: 'https://blog.weareopensource.me',
+      key: '0415f48774e7c49c713204f787',
     },
     stats: {
-      background:
-        'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-      data: [
+      content: [
         {
           value: '0',
           title: 'Tasks',
@@ -222,17 +439,27 @@ module.exports = {
         },
       ],
     },
-    blog: {
-      // actually dev for Ghost Blog
-      title: 'Blog',
-      url: 'https://blog.weareopensource.me',
-      subscribe: 'https://blog.weareopensource.me/#subscribe',
-      key: '0415f48774e7c49c713204f787',
-    },
     contact: {
-      title: 'Contact Us',
+      style: {
+        section: {
+          background: 'background',
+        },
+      },
+      title: 'Feel free to contact us',
       mail: 'mailto:pierre@weareopensource.me',
     },
+  },
+  pages: {
+    style: {
+      section: {
+        background: 'background',
+      },
+      card: {
+        background: 'surface',
+      },
+    },
+  },
+  footer: {
     links: [
       {
         title: 'Useful',
@@ -263,6 +490,11 @@ module.exports = {
             label: 'Changelogs',
             icon: 'fa-solid fa-clipboard-list',
             url: '/changelogs',
+          },
+          {
+            label: 'WAOS 2023',
+            icon: 'fa-regular fa-copyright',
+            url: 'https://weareopensource.me',
           },
         ],
       },

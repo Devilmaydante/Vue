@@ -1,33 +1,20 @@
 <template>
   <div>
-    <homeBannerComponent v-bind:ratio="1" v-bind:app="config.app" v-bind:statusMargin="450"></homeBannerComponent>
-    <homeAboutsComponent v-bind:abouts="config.home.abouts" v-bind:md="6" v-bind:custom="null"></homeAboutsComponent>
-    <homeFeaturesComponent
-      v-bind:features="config.home.features"
-      v-bind:custom="{
-        section: { background: config.vuetify.theme.themes[theme].colors.surface },
-        card: { background: config.vuetify.theme.themes[theme].colors.background },
-      }"
-    ></homeFeaturesComponent>
-    <homeSlideshowComponent
-      v-bind:slides="config.home.slideshow"
-      v-bind:custom="null"
-      v-bind:height="350"
-      v-bind:mdImage="8"
-      v-bind:mdText="4"
-      v-bind:full="false"
-      v-bind:interval="6000"
-    ></homeSlideshowComponent>
-    <homeStatsComponent v-bind:statistics="statistics"></homeStatsComponent>
-    <homeBlogComponent
-      v-bind:title="config.home.blog.title"
-      v-bind:url="config.home.blog.url"
-      v-bind:news="news"
-      v-bind:custom="{
-        section: { background: config.vuetify.theme.themes[theme].colors.surface },
-      }"
-    ></homeBlogComponent>
-    <homeContactComponent></homeContactComponent>
+    <homeBannerComponent
+      v-if="config.home.banner"
+      v-bind:title="config.home.banner.title"
+      v-bind:button="config.home.banner.button"
+    ></homeBannerComponent>
+    <homeVideoComponent v-if="config.home.video" v-bind:setup="config.home.video"></homeVideoComponent>
+    <homeContentsComponent v-if="config.home.punchline" v-bind:setup="config.home.punchline"></homeContentsComponent>
+    <homeContentsComponent v-if="config.home.features" v-bind:setup="config.home.features"></homeContentsComponent>
+    <homeCardsComponent v-if="config.home.repos" v-bind:setup="config.home.repos"></homeCardsComponent>
+    <homeIconsComponent v-if="config.home.ressources" v-bind:setup="config.home.ressources"></homeIconsComponent>
+    <homeSlideshowComponent v-if="config.home.designs" v-bind:setup="config.home.designs"></homeSlideshowComponent>
+    <homeLogosComponent v-if="config.home.partners" v-bind:setup="config.home.partners"></homeLogosComponent>
+    <homeImagesComponent v-if="config.home.blog" v-bind:setup="{ content: news, ...config.home.blog }"></homeImagesComponent>
+    <homeParallaxComponent v-if="config.home.stats" v-bind:setup="statistics"></homeParallaxComponent>
+    <homeContactComponent v-if="config.home.contact"></homeContactComponent>
   </div>
 </template>
 
@@ -37,11 +24,14 @@
  */
 import { mapGetters } from 'vuex';
 import homeBannerComponent from '../components/home.banner.component.vue';
-import homeAboutsComponent from '../components/home.abouts.component.vue';
-import homeFeaturesComponent from '../components/home.features.component.vue';
+import homeVideoComponent from '../components/home.video.component.vue';
+import homeContentsComponent from '../components/home.contents.component.vue';
+import homeCardsComponent from '../components/home.cards.component.vue';
+import homeLogosComponent from '../components/home.logos.component.vue';
+import homeIconsComponent from '../components/home.icons.component.vue';
 import homeSlideshowComponent from '../components/home.slideshow.component.vue';
-import homeStatsComponent from '../components/home.stats.component.vue';
-import homeBlogComponent from '../components/home.blog.component.vue';
+import homeImagesComponent from '../components/home.images.component.vue';
+import homeParallaxComponent from '../components/home.parallax.component.vue';
 import homeContactComponent from '../components/home.contact.component.vue';
 
 /**
@@ -50,20 +40,22 @@ import homeContactComponent from '../components/home.contact.component.vue';
 export default {
   components: {
     homeBannerComponent,
-    homeAboutsComponent,
-    homeFeaturesComponent,
+    homeVideoComponent,
+    homeContentsComponent,
+    homeCardsComponent,
+    homeLogosComponent,
+    homeIconsComponent,
     homeSlideshowComponent,
-    homeStatsComponent,
-    homeBlogComponent,
+    homeParallaxComponent,
+    homeImagesComponent,
     homeContactComponent,
   },
   computed: {
     ...mapGetters(['theme', 'news', 'statistics']),
   },
   created() {
-    this.$store.dispatch('getStatistics').then(() => {
-      this.$store.dispatch('getNews');
-    });
+    if (this.config.home.stats) this.$store.dispatch('getStatistics');
+    if (this.config.home.blog) this.$store.dispatch('getNews');
   },
 };
 </script>
